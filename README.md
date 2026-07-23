@@ -26,20 +26,17 @@ pip install -r requirements.txt
 
 ### 2. 환경 변수 설정
 
-`.env.example` 파일을 `.env`로 복사하고 설정하세요:
-
-```bash
-copy .env.example .env
-```
-
-`.env` 파일을 열고 다음 내용을 입력:
+프로젝트 루트에 `.env` 파일을 만들고 다음 내용을 입력하세요:
 
 ```
 DISCORD_BOT_TOKEN=your_discord_bot_token_here
 COINNESS_API_URL=https://api.coinness.com/feed/v1/breaking-news
 ```
 
-> **참고**: `COINNESS_API_URL`은 선택사항입니다. 설정하지 않으면 기본 URL을 사용합니다.
+> **참고**
+> - `DISCORD_BOT_TOKEN`은 **필수**입니다. 없으면 봇이 실행되지 않고 안내 메시지를 출력한 뒤 종료합니다.
+> - `COINNESS_API_URL`은 코드에서 `os.getenv('COINNESS_API_URL')`로 읽어오는 뉴스 API 엔드포인트입니다.
+> - `.env` 파일은 `.gitignore`에 포함되어 Git에 커밋되지 않습니다.
 
 ## 🤖 디스코드 봇 생성 방법
 
@@ -89,12 +86,11 @@ Bot ID: 123456789012345678
 
 ```
 crypto_news_bot/
-├── discord_bot.py      # 메인 봇 파일
-├── coinness_api.py     # 코인니스 API 클라이언트
+├── discord_bot.py      # 메인 봇 파일 (10초 주기 뉴스 체크 · 채널 탐색 · 임베드 전송)
+├── coinness_api.py     # 코인니스 API 클라이언트 (aiohttp 비동기 호출)
 ├── requirements.txt    # 필요한 패키지 목록
-├── .env.example       # 환경 변수 예시
-├── .env               # 환경 변수 (직접 생성)
-├── last_news.json     # 이전 뉴스 저장 파일 (자동 생성)
+├── .env               # 환경 변수 (직접 생성, .gitignore 처리됨)
+├── last_news.json     # 이전 뉴스 저장 파일 (중복 비교용)
 └── README.md          # 이 파일
 ```
 
